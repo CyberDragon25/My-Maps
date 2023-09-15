@@ -2,12 +2,13 @@ package edu.iastate.shubham8.mymaps
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import edu.iastate.shubham8.mymaps.models.Place
 import edu.iastate.shubham8.mymaps.models.UserMap
 import kotlinx.android.synthetic.main.activity_main.*
 
-
+private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,7 +18,14 @@ class MainActivity : AppCompatActivity() {
         // Set layout manager on the recycler view
         rvMaps.layoutManager = LinearLayoutManager(this)
         // Set adapter on the recycler view
-        rvMaps.adapter = MapsAdapter(this, userMaps)
+        rvMaps.adapter = MapsAdapter(this, userMaps, object: MapsAdapter.OnClickListener{
+            override fun onItemClick(position: Int) {
+                Log.i(TAG, "onItemClick $position")
+            }
+
+        })
+
+        // When user taps on view in RV, navigate to new activity
     }
 
     private fun generateSampleData(): List<UserMap> {
